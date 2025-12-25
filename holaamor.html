@@ -1,0 +1,704 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Para mi muñequita ❤️</title>
+
+  <!-- Estilos: diseño moderno, colores románticos y responsivo -->
+  <style>
+    :root{
+      --bg:#100f14;
+      --card:#111216;
+      --accent1:#ff4d6d; /* rosa/rojo */
+      --accent2:#ff9ab3; /* rosa claro */
+      --muted:#bfc3c8;
+      --glass: rgba(255,255,255,0.04);
+      --radius:16px;
+      --maxw:1000px;
+      --shadow: 0 8px 30px rgba(17,17,22,0.6);
+      --soft-shadow: 0 6px 18px rgba(0,0,0,0.6);
+    }
+
+    html,body{
+      height:100%;
+      margin:0;
+      background: linear-gradient(180deg, #0b0a0d 0%, #141218 40%, #1a1020 100%);
+      color:#fff;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      display:flex;
+      justify-content:center;
+      padding:40px 16px;
+    }
+
+    .wrap{
+      width:100%;
+      max-width:var(--maxw);
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:20px;
+      padding:28px;
+      box-shadow:var(--shadow);
+      border: 1px solid rgba(255,255,255,0.03);
+    }
+
+    header.top{
+      display:flex;
+      gap:20px;
+      align-items:center;
+      margin-bottom:18px;
+    }
+
+    .logo{
+      width:86px;
+      height:86px;
+      border-radius:18px;
+      background: radial-gradient(circle at 20% 20%, var(--accent2), transparent 15%), linear-gradient(135deg,var(--accent1), #8e2a57);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow: var(--soft-shadow);
+      flex-shrink:0;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .logo svg{ filter: drop-shadow(0 4px 15px rgba(255,77,109,0.22)); }
+
+    .title{
+      flex:1;
+    }
+
+    .title h1{
+      margin:0;
+      font-size:20px;
+      letter-spacing:0.2px;
+    }
+    .title p{
+      margin:6px 0 0;
+      color:var(--muted);
+      font-size:14px;
+    }
+
+    .main{
+      display:grid;
+      grid-template-columns: 1fr 420px;
+      gap:20px;
+      align-items:start;
+    }
+
+    /* Left column: mensaje y controles */
+    .panel{
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.015));
+      padding:20px;
+      border-radius:var(--radius);
+      border:1px solid rgba(255,255,255,0.03);
+      box-shadow: var(--soft-shadow);
+    }
+
+    .hero{
+      display:flex;
+      gap:18px;
+      align-items:flex-start;
+    }
+
+    .hero .message{
+      flex:1;
+    }
+
+    .message h2{
+      margin:0 0 6px;
+      font-size:22px;
+      color:var(--accent1);
+      letter-spacing:0.3px;
+    }
+
+    .message p.lead{
+      margin:0 0 12px;
+      color:#ffdee6;
+      font-size:16px;
+      line-height:1.45;
+    }
+
+    .message p.small{
+      margin:0;
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    /* Gallery of "fotos de nosotros" */
+    .gallery{
+      margin-top:16px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .gallery img{
+      width:calc(33.333% - 6.6px);
+      border-radius:12px;
+      object-fit:cover;
+      height:86px;
+      border: 1px solid rgba(255,255,255,0.04);
+      transition:transform .28s ease;
+    }
+    .gallery img:hover{ transform: translateY(-6px); box-shadow: 0 10px 30px rgba(0,0,0,0.6); }
+
+    /* Buttons area */
+    .controls{
+      margin-top:20px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .btn{
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border:1px solid rgba(255,255,255,0.03);
+      color:#fff;
+      padding:10px 14px;
+      border-radius:12px;
+      cursor:pointer;
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+      font-size:14px;
+      transition:all .18s ease;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.5);
+    }
+    .btn:hover{ transform:translateY(-4px); }
+
+    .btn .dot{
+      width:12px;height:12px;border-radius:50%;
+      background:var(--accent1);
+      box-shadow:0 4px 10px rgba(255,77,109,0.25);
+    }
+
+    .btn.active{
+      background: linear-gradient(90deg, rgba(255,77,109,0.12), rgba(255,154,179,0.06));
+      border:1px solid rgba(255,77,109,0.22);
+    }
+
+    
+    /* ---------- Reemplazo: Display y miniaturas centradas para botones ---------- */
+
+.display{
+  margin-top:1px;
+  border-radius:14px;
+  overflow:hidden;
+  background:linear-gradient(180deg, rgba(0,0,0,0.35), rgba(255,255,255,0.02));
+  border:1px solid rgba(255,255,255,0.03);
+  min-height:1000px;
+  position:relative; /* importante para posicionar imágenes absolute dentro */
+  /* quitamos display:flex para evitar problemas de superposición con imágenes absolute */
+}
+
+/* Imagen grande: posicionada absolutely para ocupar todo el contenedor,
+   oculta por defecto y visible solo cuando tenga la clase .show */
+.display img{
+  position: absolute;
+  inset: 0; /* top:0; right:0; bottom:0; left:0; */
+  width: 100%;
+  height: 100%;
+  object-fit: cover;           /* recorta manteniendo el centro */
+  object-position: center center;
+  display: none;               /* oculto por defecto (evita solapamientos) */
+  opacity: 0;
+  transform: scale(1.02);
+  transition: opacity .45s ease, transform .45s cubic-bezier(.2,.9,.2,1);
+}
+
+/* Mostrar la imagen seleccionada */
+.display img.show{
+  display: block;
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Mensaje sobre la imagen (overlay) se mantiene visible y encima */
+.message-overlay{
+  position:absolute;
+  left:18px;
+  bottom:18px;
+  background: linear-gradient(90deg, rgba(255,77,109,0.12), rgba(255,154,179,0.06));
+  padding:12px 16px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,0.04);
+  backdrop-filter: blur(6px);
+  z-index: 10; /* aseguramos que quede encima de las imágenes */
+}
+.message-overlay h3{
+  margin:0; font-size:18px; color:#fff;
+}
+.message-overlay p{ margin:6px 0 0; color:#ffdfe7; font-size:13px; }
+
+/* ---------- Miniaturas centradas dentro de los botones ---------- */
+/* Variable para tamaño de miniatura (ajústala si quieres) */
+:root { --thumb-size: clamp(64px, 16vw, 96px); }
+
+/* Wrapper que asegura recorte y centrado exacto */
+.thumb-wrap{
+  width: var(--thumb-size);
+  height: var(--thumb-size);
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.02);
+  border: 2px solid rgba(255,255,255,0.04);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+  flex-shrink: 0;
+}
+
+/* Imagen miniatura dentro del wrapper */
+.btn img.thumb{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;           /* recorta centrado */
+  object-position: center center;
+  display: block;
+}
+
+/* Asegura que el botón centre su contenido (vertical/horizontal) */
+.btn{
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: calc(var(--thumb-size) + 44px);
+  padding: 10px;
+}
+
+/* Estado activo del botón (resalte) */
+.btn.active{
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.45);
+  border-color: rgba(255,77,109,0.22);
+}
+
+/* Responsive: reduce thumbs en pantallas pequeñas */
+@media (max-width: 480px){
+  :root{ --thumb-size: 56px; }
+  .btn{ min-height: calc(var(--thumb-size) + 36px); }
+}
+
+    /* Right column: panel with pictures and quiz */
+    .side{
+      display:flex;
+      flex-direction:column;
+      gap:18px;
+    }
+
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.03));
+      padding:16px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,0.03);
+      box-shadow: var(--soft-shadow);
+    }
+
+    .card h4{ margin:0 0 10px; color:var(--accent2); font-size:16px; }
+
+    /* Small thumbnails under side panel */
+    .side-thumbs{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      justify-content:center;
+    }
+    .side-thumbs img{
+      width:100%; max-width:120px;
+      height:76px; object-fit:cover; border-radius:10px;
+      border:1px solid rgba(255,255,255,0.03);
+    }
+
+    /* Quiz styling */
+    .quiz-list{ display:flex; flex-direction:column; gap:12px; margin-top:8px; }
+    .q{
+      background:var(--glass);
+      padding:10px;
+      border-radius:12px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      border:1px solid rgba(255,255,255,0.02);
+    }
+    .q p{ margin:0; font-size:14px; color:#fff; flex:1; }
+    .answers{ display:flex; gap:8px; align-items:center; }
+    .yn{
+      padding:8px 12px; border-radius:10px; border:1px solid rgba(255,255,255,0.06);
+      background:transparent; color:var(--muted); cursor:pointer; transition:all .18s ease;
+    }
+    .yn:hover{ transform:translateY(-3px); }
+    .yn.correct{ background:linear-gradient(90deg, rgba(40,220,140,0.12), rgba(40,220,140,0.04)); color:#a6ffda; border-color: rgba(40,220,140,0.18); }
+    .yn.wrong{ background:linear-gradient(90deg, rgba(255,60,80,0.08), rgba(255,60,80,0.03)); color:#ffb3c2; border-color: rgba(255,60,80,0.12); }
+
+    .score{
+      margin-top:10px;
+      font-size:15px;
+      color:var(--muted);
+    }
+
+    /* Responsive */
+    @media (max-width:980px){
+      .main{ grid-template-columns: 1fr; }
+      .side{ order:2; }
+    }
+
+    /* small confetti like sparkle when correct */
+    .sparkle{
+      position:absolute;
+      right:14px;
+      top:14px;
+      width:36px;
+      height:36px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      transform:rotate(15deg);
+      opacity:0;
+      transition:opacity .3s ease;
+    }
+    .sparkle.show{ opacity:1; animation: pop .8s ease both; }
+    @keyframes pop{
+      0%{ transform:scale(.6) rotate(10deg); opacity:0; }
+      40%{ transform:scale(1.08) rotate(12deg); opacity:1; }
+      100%{ transform:scale(1) rotate(15deg); opacity:1; }
+    }
+
+    /* footer note */
+    footer{ margin-top:16px; color:var(--muted); font-size:13px; text-align:center; }
+  </style>
+</head>
+
+<body>
+  <div class="wrap" role="main">
+    <header class="top" aria-label="Encabezado">
+      <div class="logo" aria-hidden="true">
+        <!-- corazón / cinta -->
+        <svg viewBox="0 0 64 64" width="48" height="48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M32 54s-18-11.6-24-18.6C2 28 8 18 18 15c8-2.7 14 2.5 14 2.5S40 12.3 48 15c10 3 16 13 10 20.9C50 42.4 32 54 32 54z" fill="#fff" opacity="0.12"/>
+          <path d="M32 50s-15.2-9.6-20.2-15.4C6 28 11 20 19 17c7-2.4 12 2.2 13.2 3 1.2-.8 6.2-5.4 13.8-3.1 8.4 2.6 13.2 11.8 9.4 17.6C47.2 40.4 32 50 32 50z" fill="#fff" opacity="0.18"/>
+          <path d="M20 22c-2.7-2.7-2.7-7.1 0-9.8 2.7-2.7 7.1-2.7 9.8 0L32 11l2.2 1.2c2.7-2.7 7.1-2.7 9.8 0 2.7 2.7 2.7 7.1 0 9.8L32 41 20 22z" fill="#fff"/>
+        </svg>
+      </div>
+
+      <div class="title">
+        <h1>Para mi muñequita — Te amo</h1>
+        <p>Un pequeño sitio lleno de recuerdos, fotos y sorpresas. Presiona los botones para ver imágenes especiales.</p>
+      </div>
+    </header>
+
+    <section class="main">
+      <div class="panel">
+        <div class="hero">
+          <div class="message">
+            <h2>Mi amor, mi muñequita</h2>
+            <p class="lead">
+              Quiero pasar el resto de mi vida contigo. Eres mi alegría, mi apoyo y mi hogar. Cada momento a tu lado es único.
+              Presiona cualquiera de los botones abajo para ver una sorpresa que escogí especialmente para ti. ❤️
+            </p>
+            <p class="small">Mira corazon somos tu y yo :3</p>
+          </div>
+          <div style="width:120px; text-align:center;">
+            <svg width="86" height="86" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M12 21s-7.5-4.7-10-8.5C-0.5 8.3 4 3 8 4.2 10 4.9 11 7 12 7s2-2.1 4-2.8c4-1.2 8.5 4.1 6 8.3C19.5 16.3 12 21 12 21z" fill="url(#g1)"/>
+              <defs>
+                <linearGradient id="g1" x1="0" x2="1" y1="0" y2="1">
+                  <stop offset="0" stop-color="#ff5a7a"/>
+                  <stop offset="1" stop-color="#ffb0c9"/>
+                </linearGradient>
+              </defs>
+            </svg>
+            <div style="color:var(--muted);margin-top:8px;font-size:13px">Siempre tuyo</div>
+          </div>
+        </div>
+
+        <div class="gallery" aria-hidden="false">
+          <!-- Replace these URLs with your own photos -->
+          <img src="ella.jpg" alt="Foto 1 de nosotros">
+          <img src="epic.jpg" alt="Foto 2 de nosotros">
+          <img src="nosotros.jpg" alt="Foto 3 de nosotros">
+          <img src="p.jpg" alt="Foto 4 de nosotros">
+        </div>
+
+        <div class="controls" role="tablist" aria-label="Sorpresas">
+          <!-- Each button corresponds to an image id in the display area -->
+          <button class="btn" data-img="img1" aria-pressed="false"><span class="dot"></span> Sorpresa 1</button>
+          <button class="btn" data-img="img2" aria-pressed="false"><span class="dot"></span> Sorpresa 2</button>
+          <button class="btn" data-img="img3" aria-pressed="false"><span class="dot"></span> Sorpresa 3</button>
+          <button class="btn" data-img="img4" aria-pressed="false"><span class="dot"></span> Sorpresa 4</button>
+          <button class="btn" data-img="img5" aria-pressed="false"><span class="dot"></span> Sorpresa 5</button>
+          <button class="btn" data-img="img6" aria-pressed="false"><span class="dot"></span> Sorpresa 6</button>
+        </div>
+
+        <div class="display" aria-live="polite" aria-label="Área de imagen seleccionada">
+          <div class="sparkle" id="sparkle" aria-hidden="true">
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none"><path d="M12 2l1.8 3.6L18 7l-3.6 1.8L12 12l-1.8-3.2L6 7l3.2-1.4L12 2z" fill="#fff" opacity="0.16"/><path d="M6 13l1.2 2.4L9 17l-1.8.8L6 20l-0.6-2.2L3 17l2.4-1.6L6 13z" fill="#ffd1db" opacity="0.95"/></svg>
+          </div>
+
+          <!-- Images: replace hrefs with your own images in folder images/ or online links -->
+          <img id="img1" src="s.jpg" alt="Sorpresa 1" />
+          <img id="img2" src="cc.jpg" alt="Sorpresa 2" />
+          <img id="img3" src="q.jpg" alt="Sorpresa 3" />
+          <img id="img4" src="l.jpg" alt="Sorpresa 4" />
+          <img id="img5" src="tt.jpg" alt="Sorpresa 5" />
+          <img id="img6" src="y.jpg" alt="Sorpresa 6" />
+
+          <div class="message-overlay" aria-hidden="false">
+            <h3>Te amo</h3>
+            <p>Mi muñequita, quiero todo contigo --- te amo te amo te amo</p>
+          </div>
+        </div>
+
+      </div>
+
+      <aside class="side">
+        <div class="card" aria-label="Fotos destacadas">
+          <h4>Fotos destacadas</h4>
+          <div class="side-thumbs">
+            <img src="jalo.jpg" alt="Foto pequeña 1">
+            <img src="u.jpg" alt="Foto pequeña 2">
+          </div>
+          <p style="margin-top:12px;color:var(--muted);font-size:13px;">Pulsa los botones para ver cada sorpresa dedicada especialmente para ti.</p>
+        </div>
+
+        <div class="card" aria-label="Cuestionario">
+          <h4>Pequeño cuestionario — responde Sí o No</h4>
+          <div class="quiz-list" id="quiz">
+
+            <!-- Each question item; the JS uses dataset.qid to match correct answers -->
+            <div class="q" data-qid="0">
+              <p>¿Nos conocimos en un ensayo?</p>
+              <div class="answers">
+                <button class="yn" data-answer="yes">Sí</button>
+                <button class="yn" data-answer="no">No</button>
+              </div>
+            </div>
+
+            <div class="q" data-qid="1">
+              <p>¿La primera canción que te dediqué fue la de "Yo soy G y tú Haku"?</p>
+              <div class="answers">
+                <button class="yn" data-answer="yes">Sí</button>
+                <button class="yn" data-answer="no">No</button>
+              </div>
+            </div>
+
+            <div class="q" data-qid="2">
+              <p>¿Siempre íbamos al bosque después de la UNI?</p>
+              <div class="answers">
+                <button class="yn" data-answer="yes">Sí</button>
+                <button class="yn" data-answer="no">No</button>
+              </div>
+            </div>
+
+            <div class="q" data-qid="3">
+              <p>¿El 17 de mayo fue nuestra primera conversación?</p>
+              <div class="answers">
+                <button class="yn" data-answer="yes">Sí</button>
+                <button class="yn" data-answer="no">No</button>
+              </div>
+            </div>
+
+            <div class="q" data-qid="4">
+              <p>¿Yo fui a pedirte el número cuando te vi en el paseo Morelos?</p>
+              <div class="answers">
+                <button class="yn" data-answer="yes">Sí</button>
+                <button class="yn" data-answer="no">No</button>
+              </div>
+            </div>
+
+            <div class="q" data-qid="5">
+              <p>¿Nuestra fecha importante es el 14 de enero?</p>
+              <div class="answers">
+                <button class="yn" data-answer="yes">Sí</button>
+                <button class="yn" data-answer="no">No</button>
+              </div>
+            </div>
+
+            <div class="q" data-qid="6">
+              <p>¿Tú me has dado 10 dibujos?</p>
+              <div class="answers">
+                <button class="yn" data-answer="yes">Sí</button>
+                <button class="yn" data-answer="no">No</button>
+              </div>
+            </div>
+
+            <div class="q" data-qid="7">
+              <p>¿Yo te amo?</p>
+              <div class="answers">
+                <button class="yn" data-answer="yes">Sí</button>
+                <button class="yn" data-answer="no">No</button>
+              </div>
+            </div>
+
+            <div class="q" data-qid="8">
+              <p>¿Somos novios esposos?</p>
+              <div class="answers">
+                <button class="yn" data-answer="yes">Sí</button>
+                <button class="yn" data-answer="no">No</button>
+              </div>
+            </div>
+
+            <div class="q" data-qid="9">
+              <p>¿Cuando no te veo estoy que me muero?</p>
+              <div class="answers">
+                <button class="yn" data-answer="yes">Sí</button>
+                <button class="yn" data-answer="no">No</button>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="score" id="score">Aciertos: 0 / 10</div>
+        </div>
+
+        <div class="card" aria-label="Nota">
+          <h4>Un detalle</h4>
+          <p style="color:var(--muted);font-size:13px;">Hola amor sabes lo mucho que te amo, las palabras no me alcanzan para expresar lo que realmente siento por ti<code></code>Enserio te amo corazon y te hago esta pagina web para inmortalizar el cariño, aprecio y sobre todo amor que te tengo, me haces demasiado feliz amor. <code>(Te amo te amo mmwwaak<3</code>).</p>
+        </div>
+      </aside>
+    </section>
+
+    <footer>
+      Hecho con amor ❤️ — Presiona las sorpresas y luego respondes el quiz. Te amo ¡Suerte!
+    </footer>
+  </div>
+
+  <script>
+    // ---------- CONFIGURACIÓN ----------
+    const correctAnswers = [
+      false, // ¿Nos conocimos en un ensayo?
+      true,  // La primera canción que te dediqué fue ...
+      true, // Siempre íbamos al bosque después de la UNI
+      true, // El 17 de mayo fue nuestra primera conversación
+      false,  // Yo fui a pedirte el número cuando te vi en el paseo morelos
+      false, // Nuestra fecha importante es el 14 de enero
+      true,  // Tú me has dado 10 dibujos
+      true,  // Yo te amo
+      true,  // Somos novios esposos (ajusta si quieres 'novios' o 'esposos')
+      true   // cuando no te veo estoy que me muero
+    ];
+
+  
+
+    // ---------- LÓGICA DE BOTONES DE IMÁGENES ----------
+    const buttons = document.querySelectorAll('.btn');
+    const displayImgs = document.querySelectorAll('.display img');
+    const sparkle = document.getElementById('sparkle');
+
+    // Hide all images initially
+    displayImgs.forEach(img => img.classList.remove('show'));
+
+    function showImage(id){
+      // hide all
+      displayImgs.forEach(img => {
+        img.classList.remove('show');
+        img.setAttribute('aria-hidden','true');
+      });
+
+      // remove active from buttons
+      buttons.forEach(b=>{
+        b.classList.remove('active');
+        b.setAttribute('aria-pressed','false');
+      });
+
+      // show selected
+      const img = document.getElementById(id);
+      if(img){
+        img.classList.add('show');
+        img.setAttribute('aria-hidden','false');
+      }
+
+      // mark button active
+      const btn = document.querySelector('.btn[data-img="'+id+'"]');
+      if(btn){
+        btn.classList.add('active');
+        btn.setAttribute('aria-pressed','true');
+      }
+
+      // small sparkle animation
+      sparkle.classList.remove('show');
+      void sparkle.offsetWidth;
+      sparkle.classList.add('show');
+      setTimeout(()=> sparkle.classList.remove('show'),900);
+    }
+
+    buttons.forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const id = btn.dataset.img;
+        showImage(id);
+      });
+    });
+
+    // Optionally, show the first image on load
+    window.addEventListener('DOMContentLoaded', ()=>{
+      showImage('img1');
+    });
+
+    // ---------- LÓGICA DEL CUestionario ----------
+    const quiz = document.getElementById('quiz');
+    const scoreEl = document.getElementById('score');
+    let score = 0;
+    const answered = new Set();
+
+    quiz.addEventListener('click', (e)=>{
+      const btn = e.target.closest('button.yn');
+      if(!btn) return;
+
+      const qEl = btn.closest('.q');
+      const qid = parseInt(qEl.dataset.qid,10);
+      if(answered.has(qid)) return; // ya respondida
+
+      const picked = btn.dataset.answer === 'yes';
+      const correct = !!correctAnswers[qid];
+
+      // marca visual
+      if(picked === correct){
+        btn.classList.add('correct');
+        score++;
+      } else {
+        btn.classList.add('wrong');
+        // mostrar cuál era la respuesta correcta
+        const otherBtn = qEl.querySelector('.yn[data-answer="'+(correct ? 'yes' : 'no')+'"]');
+        if(otherBtn) otherBtn.classList.add('correct');
+      }
+
+      answered.add(qid);
+      scoreEl.textContent = `Aciertos: ${score} / ${correctAnswers.length}`;
+
+      // pequeña animación: si el usuario respondió todas las preguntas, mostrar mensaje final
+      if(answered.size === correctAnswers.length){
+        setTimeout(()=> {
+          const total = correctAnswers.length;
+          let msg;
+          if(score === total){
+            msg = `¡Increíble! Obtuviste ${score}/${total}. Eres la mejor novia, te amo. ❤️`;
+          } else if(score >= Math.ceil(total*0.6)){
+            msg = `Muy bien: ${score}/${total}. Oña mi amor te amo! 😊`;
+          } else {
+            msg = `Score ${score}/${total}. No importa, lo importante es que te amo y tú lo sabes.`;
+          }
+          alert(msg);
+        },350);
+      }
+    });
+
+    // Accessibility: allow keyboard navigation for buttons
+    buttons.forEach(b=>{
+      b.addEventListener('keyup', (e)=>{
+        if(e.key === 'Enter' || e.key === ' '){
+          b.click();
+        }
+      });
+    });
+
+    // Final note: si quieres personalizar, abre este archivo y cambia:
+    // - Imágenes: atributos src en los elementos <img>
+    // - Respuestas correctas: array `correctAnswers` arriba
+  </script>
+</body>
+</html>
